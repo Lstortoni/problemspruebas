@@ -1,0 +1,27 @@
+version: "1.1"
+
+services:
+  problem-service:
+    container_name: problem-service
+    image: backend:1.0
+    build: .
+    ports:
+      - "8082:8082"
+    environment:
+      - DATABASE_URL=jdbc:mysql://java_db:3306/problems_service?createDatabaseIfNotExist=true&serverTimezone=UTC
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=
+    restart: always
+    depends_on:
+      - java_db
+  java_db:
+    container_name: java_db
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=problems_service
+      - MYSQL_USER=userproblem
+      - MYSQL_PASSWORD=problem1978
+    restart: always
